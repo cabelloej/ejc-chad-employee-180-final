@@ -1,0 +1,270 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	
+	<meta name="viewport" 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	
+	<title>Save/Update Employee</title>
+</head>
+
+
+
+<body>
+
+	<div class="container">
+
+		<h4>Employee Details</h4> 
+
+		<form 
+			th:action="@{/employees/save}" th:object="${employee}" method="POST">
+			<!-- Add hidden form field to handle update -->
+			<input type="hidden"	th:field="*{id}" /> 
+
+			
+			<div >
+				<label>First Name:</label>
+				<input type="text"		th:field="*{firstName}"  placeholder="First name">
+				<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">List of Errors for this Field</p>
+			</div>
+
+			<div>
+				<label>Last Name:</label>
+				<input type="text"		th:field="*{lastName}" 	placeholder="Last name"> 
+				<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">List of Errors for this Field</p>
+			</div>
+			
+			<div>
+				<label>eMail:</label>
+				<input type="text"		th:field="*{email}" placeholder="Email">
+				<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">List of Errors for this Field</p>
+			</div>
+			
+			<div>
+				<tr>
+					<td>
+						Department
+					</td>
+					
+					<td>
+					    <select th:field= "*{department}">
+					    	 <option value="">
+					    	 	Choose..
+					    	 </option>
+			    	  
+						      <option 
+						      		th:each="department: ${departments}" th:value="${department.id}" th:text="${department.name}"> 
+						      </option>
+					    </select>
+	                 </td>
+                 </tr>
+            </div>
+
+			<div>
+				<label>Favorite Programming Languages:</label>
+		        <label th:for="${#ids.next('java')}">  Java  </label>
+		        <input type="checkbox" th:field="*{java}" />
+		        
+		        <label th:for="${#ids.next('python')}">  Python  </label>
+		        <input type="checkbox" th:field="*{python}" />
+		        
+		        <label th:for="${#ids.next('dart')}">  Dart  </label>
+		        <input type="checkbox" th:field="*{dart}" />
+		        
+		        <label th:for="${#ids.next('kotlin')}">  Kotlin  </label>
+		        <input type="checkbox" th:field="*{kotlin}" />
+		    </div>
+			
+		
+			
+			<a  th:href="@{/employees/list}" 
+				class="btn btn-danger col-2">
+				Back 
+			</a>
+
+			<button type="submit" class="btn btn-info col-2">
+				Save
+			</button>
+			<hr>	
+
+
+			
+			<!--  ---------------------------------------------------------------------- -->
+			<h5>Relatives</h5> 
+			<a 
+				th:href="@{'/employees/' + ${employee.id} + '/relatives/add'}"
+				class="btn btn-primary btn-sm">
+				Add Relative
+			</a> 
+			
+			<table class="table table-bordered table-striped">
+				<thead class="thead-dark">
+					<tr>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Relation</th>
+						<th>Gender</th>
+						<th>Birth date</th>
+						<th>Height</th>
+						<th>Weight</th>
+						<th>Wrist Size</th>
+						<!-- 
+						<th>Action</th>
+						-->
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="tempRelative : *{relatives}">	
+						<td th:text="${tempRelative.firstName}"/>		
+						<td th:text="${tempRelative.lastName}"/>
+						<td th:text="${tempRelative.relation}"/>
+						<td th:text="${tempRelative.gender}"/>
+						<td th:text="${tempRelative.birthDate}"/>
+						<td th:text="${tempRelative.height}"/>
+						<td th:text="${tempRelative.weight}"/>
+						<!-- 
+						<td th:text="${tempRelative.wristSize}"/>
+						-->
+						<td>
+							<div>
+								<!-- Add "update" button/link -->
+								<a
+									th:href="@{'/employees/' + ${employee.id} + '/relatives/' + ${tempRelative.id} + '/update'}"
+									class="btn btn-info btn-sm"
+									sec:authorize="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')">
+									View/Update 
+								</a>
+								<a  
+									th:href="@{'/employees/' + ${employee.id} + '/relatives/' + ${tempRelative.id} + '/delete'}"
+									class="btn btn-danger btn-sm"
+									onclick="if (!(confirm('Are you sure you want to delete this relative?'))) return false"
+									sec:authorize="hasRole('ROLE_ADMIN')"> 
+									Delete 
+								</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<!--  ---------------------------------------------------------------------- -->
+
+
+
+			<!--  ---------------------------------------------------------------------- -->
+			<h5>Liked Sports</h5> 
+			<a 
+				th:href="@{'/employees/' + ${employee.id} + '/sports/select'}"
+				class="btn btn-primary btn-sm"
+				sec:authorize="hasRole('ROLE_ADMIN')"> 
+				Add Sport
+			</a>
+			<table class="table table-bordered table-striped">
+				<thead class="thead-dark">
+					<tr>
+						<th>Name</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="tempSport : *{likedSports}">
+						<td th:text="${tempSport.name}" />
+						<td>
+							<div>
+								<!--  Not needed
+								<a
+									th:href="@{'/employees/' + ${employee.id} + '/sports/' + ${tempSport.id} + '/update'}"
+									class="btn btn-info btn-sm"
+									sec:authorize="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')">
+									View/Update 
+								</a> 
+								-->
+								<a
+									th:href="@{'/employees/' + ${employee.id} + '/sports/' + ${tempSport.id} + '/delete'}"
+									class="btn btn-danger btn-sm"
+									onclick="if (!(confirm('Are you sure you want to delete this sport?'))) return false"
+									sec:authorize="hasRole('ROLE_ADMIN')"> Delete 
+								</a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<!--  ---------------------------------------------------------------------- -->
+
+
+
+			
+			<!--  ---------------------------------------------------------------------- -->
+			<h5>Foreign Language Proficiency</h5> 
+			<!-- 
+			<a 
+				th:href="@{'/employees/' + ${employee.id} + '/employeesspokenlanguages/select'}"
+				class="btn btn-primary btn-sm">
+				Add Language
+			</a> 
+			-->
+			<a 
+				th:href="@{'/employees/' + ${employee.id} + '/spokenlanguages/add'}"
+				class="btn btn-primary btn-sm">
+				Add Language
+			</a> 
+			
+			
+			
+			<table class="table table-bordered table-striped">
+				<thead class="thead-dark">
+					<tr>
+						<th>Name</th>
+						<th>Experience (Yrs)</th>
+						<th>Proficiency</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="tempEmployeeSpokenLanguage : *{employeeSpokenlanguages}">	
+								<td th:text="${tempEmployeeSpokenLanguage.spokenlanguage.name}"/>	
+								<td th:text="${tempEmployeeSpokenLanguage.yearsExperience}"/>
+								<td th:text="${tempEmployeeSpokenLanguage.proficiency}"/>
+								<td>
+									<div>
+										<!-- Add "update" button/link -->
+										<a
+											th:href="@{'/employees/' + ${employee.id} + '/spokenlanguages/' + ${tempEmployeeSpokenLanguage.spokenlanguage.id} + '/update'}"
+											class="btn btn-info btn-sm"
+											sec:authorize="hasAnyRole('ROLE_MANAGER', 'ROLE_ADMIN')">
+											View/Update 
+										</a>
+										<a  
+											th:href="@{'/employees/' + ${employee.id} + '/spokenlanguages/' + ${tempEmployeeSpokenLanguage.spokenlanguage.id} + '/delete'}"
+											class="btn btn-danger btn-sm"
+											onclick="if (!(confirm('Are you sure you want to delete this language?'))) return false"
+											sec:authorize="hasRole('ROLE_ADMIN')"> 
+											Delete 
+										</a>
+									</div>
+								</td>
+
+					</tr>
+				</tbody>
+			</table>
+			<!--  ---------------------------------------------------------------------- -->
+
+
+
+			<a  th:href="@{/employees/list}" 
+				class="btn btn-danger col-2">
+				Back 
+			</a>
+
+		</form>
+		<hr>
+
+	</div>
+</body>
+</html>
+

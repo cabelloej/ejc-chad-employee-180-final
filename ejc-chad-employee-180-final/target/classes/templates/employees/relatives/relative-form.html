@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	
+	<meta name="viewport" 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet"	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" 
+							integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" 
+							crossorigin="anonymous">
+							
+	<title>Save/Update Relative</title>
+</head>
+
+
+
+<body>
+
+	<div class="container">
+
+		<h4>Relative Details</h4> <hr>
+
+		<form th:action="@{/employees/relatives/save}" th:object="${relative}" method="POST">
+			
+			<!-- Add hidden form field to handle update -->
+			<input type="hidden"	th:field="*{id}" /> 
+			<input type="hidden"	th:field="*{employee}" /> 
+
+
+       		<div class="row">
+	 			<div class="col-md-3 form-group">
+	       			<label>First Name:</label>
+	       		</div>
+	 			<div class="col-md-3 form-group">
+ 		       		<input type="text"		th:field="*{firstName}"/> 
+					<p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">List of Errors for this Field</p>
+				</div>
+			</div>
+			
+
+			<div class="row">
+	 			<div class="col-md-3 form-group">
+	       			<label>Last Name:</label>
+	       		</div>
+	 			<div class="col-md-3 form-group">
+ 		       		<input type="text"		th:field="*{lastName}"/> 
+					<p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">List of Errors for this Field</p>
+				</div>
+			</div>
+			
+			
+       		<div class="row">
+	 			<div class="col-md-3 form-group">
+	       			<label>Relation:</label>
+	       		</div>
+	 			<div class="col-md-2 form-group">
+	                <select class="form-control" th:field="*{relation}">
+	 	 	            <option th:each="relationValue : ${T(com.cabelloej.springcode.employee.domain.Relation).values()}"
+		                        th:value="${relationValue.name()}"
+	                            th:text="${relationValue.name()}">
+		                </option>
+	            	</select>
+	            </div>
+       		</div>
+       		
+       		
+		   	<div class="row">
+	 			<div class="col-md-3 form-group">
+	       			<label>Gender:</label>
+	       		</div>	
+	       		<div class="col-md-2 form-group">
+         			<input type="radio" th:field="*{gender}" value="Male" /> Male
+         		</div>
+         		
+         		<div class="col-md-2 form-group">
+         			<input type="radio" th:field="*{gender}" value="Female" /> Female
+				</div>
+				
+				<div class="col-md-2 form-group">
+         			<input type="radio" th:field="*{gender}" value="Diverse" /> Diverse
+				</div>
+
+			</div>
+
+
+   	     	<div class="row">
+	 			<div class="col-md-3 form-group">
+	       			<label>Birthdate (yyyy-mm-dd):</label>
+	       		</div>
+	 			<div class="col-md-3 form-group">
+		        	<input type="text" th:field="*{birthDate}"/>
+		        	<p th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}">List of Errors for this Field</p>
+		        </div>
+       		</div>
+		    
+
+
+   	     	<div class="row">
+	 			<div class="col-md-3 form-group">
+	       			<label>Support Deadline (yyyy-mm-dd):</label>
+	       		</div>
+	 			<div class="col-md-3 form-group">
+		        	<input type="text" th:field="*{supportDeadline}"/>
+		        	<p th:if="${#fields.hasErrors('supportDeadline')}" th:errors="*{supportDeadline}">List of Errors for this Field</p>
+		        </div>
+       		</div>
+
+
+		    
+   	     	<div class="row">
+	 			<div class="col-md-3 form-group">
+	       			<label>Height (mts):</label>
+	       		</div>
+		 		<div class="col-md-3 form-group">
+		        	<input type="text" th:field="*{height}"/>
+		        	<p th:if="${#fields.hasErrors('height')}" th:errors="*{height}">List of Errors for this Field</p>
+			    </div>
+			</div>
+		    		    
+		    
+   	     	<div class="row">
+	 			<div class="col-md-3 form-group">
+	       			<label>Weight (kgs):</label>
+	       		</div>
+	       		<div class="col-md-3 form-group">
+		        	<input type="text" th:field="*{weight}"/>
+		        	<p th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}">List of Errors for this Field</p>
+		        </div>
+		    </div>
+		    
+		    
+		    <div class="row">
+	 			<div class="col-md-3 form-group">
+	       			<label>Wrist Size(Us):</label>
+	       		</div>
+	       		<div class="col-md-3 form-group">
+			        <input type="number" th:field="*{wristSize}"/>
+			        <p th:if="${#fields.hasErrors('wristSize')}" th:errors="*{wristSize}">List of Errors for this Field</p>
+			    </div>
+		    </div>
+		    
+		    
+   	     	<div class="row">
+	 			<div class="col-md-3 form-group">
+	       			<label>Favorite Color:</label>
+	       		</div>
+	       		<div class="col-md-3 form-group">
+			        <input type="color" th:field="*{favoriteColor}"/>
+			    </div>
+		    </div>
+
+
+
+
+
+
+
+			<div>
+				<a  th:href="@{/employees/list}" 
+					class="btn btn-danger col-2">
+					Back 
+				</a>
+					
+				<button type="submit" class="btn btn-info col-2">
+					Save
+				</button>
+			</div>
+			
+
+		</form>
+
+	</div>
+	
+</body>
+
+</html>
+

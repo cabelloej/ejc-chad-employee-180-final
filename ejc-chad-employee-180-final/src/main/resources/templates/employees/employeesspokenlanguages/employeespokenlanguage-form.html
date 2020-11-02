@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	
+	<meta name="viewport" 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet"	href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" 
+							integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" 
+							crossorigin="anonymous">
+							
+	<title>Save/Update Spoken Language Proficiency</title>
+</head>
+
+
+
+<body>
+
+	<div class="container">
+
+		<h4>Spoken Language Proficiency Details</h4> <hr>
+
+		<form th:action="@{/employees/spokenlanguages/save}" th:object="${employeeSpokenlanguage}" method="POST">
+			
+			<!-- Add hidden form field to handle update -->
+			<input type="hidden"	th:field="*{id}" /> 
+
+			<input type="hidden"	th:field="*{employee.id}" /> 
+			<!-- 
+			<input type="hidden"	th:field="*{sokenlanguage.id}" /> 
+			-->
+
+
+			<!-- 
+       		<div class="row">
+	 			<div class="col-md-3 form-group">
+	       			<label>Employee Name:     :</label>
+	       		</div>
+	 			<div class="col-md-3 form-group">
+					<p th:text="${employee.firstName}"/p>
+				</div>
+			</div>
+			-->
+
+
+
+
+			<div class="row">
+				<tr>
+					<div class="col-md-3 form-group">
+						<td class="col-md-3 form-group">
+							Spoken Language
+						</td>
+					</div>
+					
+					<div class="col-md-3 form-group">
+						<td class="col-md-3 form-group">
+						    <select th:field= "*{spokenlanguage}">
+						    	 <option value="">
+						    	 	Choose..
+						    	 </option>
+				    	  
+							      <option 
+							      		th:each="spokenlanguage: ${spokenlanguages}" th:value="${spokenlanguage.id}" th:text="${spokenlanguage.name}"> 
+							      </option>
+						    </select>
+		                 </td>
+	                 </div>
+                 </tr>
+            </div>
+			
+			
+
+       		<div class="row">
+	 			<div class="col-md-3 form-group">
+	       			<label>Years of Experience:</label>
+	       		</div>
+	 			<div class="col-md-3 form-group">
+ 		       		<input type="number" th:field="*{yearsExperience}"/> 
+					<p th:if="${#fields.hasErrors('yearsExperience')}" th:errors="*{yearsExperience}">List of Errors for this Field</p>
+				</div>
+			</div>
+			
+
+
+       		<div class="row">
+	 			<div class="col-md-3 form-group">
+	       			<label>Proficiency:</label>
+	       		</div>
+	 			<div class="col-md-2 form-group">
+	                <select class="form-control" th:field="*{proficiency}">
+	 	 	            <option th:each="proficiencyValue : ${T(com.cabelloej.springcode.employee.domain.Proficiency).values()}"
+		                        th:value="${proficiencyValue.name()}"
+	                            th:text="${proficiencyValue.name()}">
+		                </option>
+	            	</select>
+	            </div>
+       		</div>
+
+
+
+			<div>
+				<a  th:href="@{/employees/list}" 
+					class="btn btn-danger col-2">
+					Back 
+				</a>
+					
+				<button type="submit" class="btn btn-info col-2">
+					Save
+				</button>
+			</div>
+
+
+
+
+		</form>
+	</div>
+</body>
+
+</html>
+
+

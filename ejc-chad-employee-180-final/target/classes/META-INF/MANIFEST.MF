@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: cabelloej
+Build-Jdk: 11.0.9
+Implementation-Title: ejc-chad-employee-180-final
+Implementation-Version: 1.0.0
+Implementation-Vendor-Id: com.cabelloej.springcode
+Implementation-URL: https://spring.io/projects/spring-boot/ejc-chad-empl
+ oyee-180-final
+Created-By: Maven Integration for Eclipse
+

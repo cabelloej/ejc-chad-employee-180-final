@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+	<title>Company Home Page</title>
+</head>
+
+
+
+
+
+<body>
+	<h2>
+		Company Home Page
+	</h2>
+	<hr>
+	
+	<p>
+		Welcome to company home page!
+	</p>
+	<hr>
+
+
+	<!-- 
+	<div>
+		<p>
+			<a th:href="@{/leaders}">Leadership Meeting</a>
+			(Only for Manager peeps)
+		</p>
+
+		<p>
+			<a th:href="@{/systems}">IT Systems Meeting</a>
+			(Only for Admin peeps)
+		</p>
+	</div>
+	-->
+	
+	
+	<div >  
+
+		<!-- Add a link to point to department -->
+		<p>
+			<a th:href="@{/departments/list}">Department List</a>
+			(for everyone)
+		</p>		
+
+		
+		<!-- Add a link to point to department -->
+		<p>
+			<a th:href="@{/sports/list}">Sports List</a>
+			(for everyone)
+		</p>		
+		
+		
+		<!-- Add a link to point to language -->
+		<p>
+			<a th:href="@{/spokenlanguages/list}">Spokenanguages List</a>
+			(for everyone)
+		</p>	
+
+		
+		<!-- Add a link to point to employee -->
+		<p>
+			<a th:href="@{/employees/list}">Employees List</a>
+			(for everyone)
+		</p>
+		
+
+		<!-- Add a link to point to employee.... this is for the employees -->
+		<p>
+			<a th:href="@{/relatives/macroList}">All Relatives List</a>
+			(for everyone)
+		</p>
+	
+	</div>
+	<hr>
+	
+	
+	
+	<!-- Add a logout button -->
+	<form th:action="@{/logout}" 
+			   method="POST">
+	
+		<input type="submit" value="Logout" />
+	</form>	
+
+
+
+			
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
